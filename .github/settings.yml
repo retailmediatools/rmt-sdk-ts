@@ -1,0 +1,222 @@
+# These settings are synced to GitHub by https://probot.github.io/apps/settings/
+repository:
+  # See https://docs.github.com/en/rest/reference/repos#update-a-repository for all available settings.
+  ######################################################################
+  # Settings
+  ######################################################################
+
+  # The name of the repository. Changing this will rename the repository
+  name: integration-sdk-ts
+
+  # A short description of the repository that will show up on GitHub
+  description: RetailMediaTools Integration TypeScript SDK
+
+  # A URL with more information about the repository
+  homepage: hhttps://app.retailmediatools.com/
+
+  # A comma-separated list of topics to set on the repository
+  topics: integration-sdk-ts, API, typescript
+
+  # Either `true` to make the repository private, or `false` to make it public.
+  private: true
+
+  # Can be `public` or `private`. If your organization is associated with an enterprise account using GitHub Enterprise Cloud or GitHub Enterprise Server 2.20+, visibility can also be `internal`. The visibility parameter overrides the private parameter when you use both along with the nebula-preview preview header
+  visibility: private
+
+  # Updates the default branch for this repository.
+  default_branch: main
+
+  # Either true to make this repo available as a template repository or false to prevent it.
+  # is_template: false
+
+  # Note: You cannot unarchive repositories through the API. `true` to archive this repository.
+  archived: false
+
+  ######################################################################
+  # Addons
+  ######################################################################
+  # Either `true` to enable issues for this repository, `false` to disable them.
+  has_issues: true
+
+  # Either `true` to enable projects for this repository, or `false` to disable them.
+  # If projects are disabled for the organization, passing `true` will cause an API error.
+  has_projects: false
+
+  # Either `true` to enable the wiki for this repository, `false` to disable it.
+  has_wiki: false
+
+  # Either `true` to enable downloads for this repository, `false` to disable them.
+  has_downloads: false
+
+  ######################################################################
+  # Pull Requests
+  ######################################################################
+  # Either `true` to allow squash-merging pull requests, or `false` to prevent squash-merging.
+  allow_squash_merge: true
+
+  # Either true to allow rebase-merging pull requests, or false to prevent rebase-merging.
+  allow_rebase_merge: false
+
+  # Either true to allow merging pull requests with a merge commit, or false to prevent merging pull requests with merge commits.
+  allow_merge_commit: false
+
+  ######################################################################
+  # Pull Requests: settings
+  ######################################################################
+  # Either `true` to enable automatic deletion of branches on merge, or `false` to disable
+  delete_branch_on_merge: true
+
+  # Either true to always allow a pull request head branch that is behind its base branch to be updated even if it is not required to be up to date before merging, or false otherwise.
+  allow_update_branch: true
+
+  # Either true to allow auto-merge on pull requests, or false to disallow auto-merge.
+  allow_auto_merge: false
+
+  ######################################################################
+  # Security
+  ######################################################################
+  # Either `true` to enable automated security fixes, or `false` to disable
+  # automated security fixes.
+  enable_automated_security_fixes: true
+
+  # Either `true` to enable vulnerability alerts, or `false` to disable
+  # vulnerability alerts.
+  enable_vulnerability_alerts: true
+
+# Labels: define labels for Issues and Pull Requests
+labels:
+  - name: documentation
+    color: "#1D76DB"
+    description: Pull requests that update documentation
+  - name: "on hold"
+    color: "#D93F0B"
+    description: "PR is on hold / DO NOT merge"
+
+  # release drafter / changelog labels
+  - name: bug
+    color: "#d73a4a"
+    description: Something isn't working
+  - name: bugfix
+    color: "#d73a4a"
+    description: Something isn't working
+  - name: chore
+    color: "#ededed"
+  - name: enhancement
+    color: "#a2eeef"
+    description: New feature or request
+  - name: feature
+    color: "#006B75"
+    description: New feature or request
+  - name: fix
+    color: "#ededed"
+  - name: skip-changelog
+    color: "#FEF2C0"
+
+  # release drafter / version-resolver
+  - name: major
+    color: "#0E8A16"
+  - name: minor
+    color: "#0E8A16"
+  - name: patch
+    color: "#0E8A16"
+
+  # dependency labels
+  - name: dependencies
+    color: "#0366d6"
+    description: Dependency updates
+  - name: gh-actions
+    color: "#000"
+    description: Pull requests that update github-actions code
+  - name: git
+    color: "#f14e32"
+    description: Pull requests that update git code or git-submodules
+  - name: js
+    color: "#f1e05a"
+    description: Pull requests that update JavaScript code
+  - name: java
+    color: "#b07219"
+    description: Pull requests that update Java code
+  - name: golang
+    color: "#00ADD8"
+    description: Pull requests that update Go code
+  - name: python
+    color: "#3572A5"
+    description: Pull requests that update Python code
+  - name: terraform
+    color: "#5c4ee5"
+    description: Pull requests that update Terraform code
+
+# Milestones: define milestones for Issues and Pull Requests
+# milestones:
+#   - title: milestone-title
+#     description: milestone-description
+#     # The state of the milestone. Either `open` or `closed`
+#     state: open
+
+# The permissions to grant the team/collaborator
+# * `pull` - can pull, but not push to or administer this repository.
+# * `push` - can pull and push, but not administer this repository.
+# * `admin` - can pull, push and administer this repository.
+# * `maintain` - Recommended for project managers who need to manage the repository without access to sensitive or destructive actions.
+# * `triage` - Recommended for contributors who need to proactively manage issues and pull requests without write access.
+
+# The permission to grant the team.
+# See https://docs.github.com/en/rest/reference/teams#add-or-update-team-repository-permissions for available options
+teams:
+  # Admin
+  - name: infrastructure
+    permission: admin
+  - name: frontend
+    permission: admin
+  # Push
+  - name: product
+    permission: push
+
+# Collaborators: give specific users access to this repository. (usually outside of the organization)
+# See https://docs.github.com/en/rest/reference/repos#add-a-repository-collaborator for available options
+collaborators:
+  []
+  # - username: dariusch
+  #   permission: admin
+
+branches:
+  - name: main
+    # https://docs.github.com/en/rest/reference/repos#update-branch-protection
+    # Branch Protection settings. Set to null to disable
+    # protection:
+    #   # Required. Require at least one approving review on a pull request, before merging. Set to null to disable.
+    #   required_pull_request_reviews:
+    #     # The number of approvals required. (1-6)
+    #     required_approving_review_count: 1
+    #     # Dismiss approved reviews automatically when a new commit is pushed.
+    #     dismiss_stale_reviews: true
+    #     # Blocks merge until code owners have reviewed.
+    #     require_code_owner_reviews: true
+    #     # Specify which users and teams can dismiss pull request reviews. Pass an empty dismissal_restrictions object to disable. User and team dismissal_restrictions are only available for organization-owned repositories. Omit this parameter for personal repositories.
+    #     # dismissal_restrictions:
+    #     #   users: []
+    #     #   teams: []
+    #   # Required. Require status checks to pass before merging. Set to null to disable
+    #   required_status_checks:
+    #     # Required. Require branches to be up to date before merging.
+    #     strict: true
+    #     # Required. The list of status checks to require in order to merge into this branch
+    #     contexts: []
+    #   # Required. Enforce all configured restrictions for administrators. Set to true to enforce required status checks for repository administrators. Set to null to disable.
+    #   enforce_admins: false
+    #   # Prevent merge commits from being pushed to matching branches
+    #   required_linear_history: true
+    #   # Required. Restrict who can push to this branch. Team and user restrictions are only available for organization-owned repositories. Set to null to disable.
+    #   restrictions:
+    #     apps:
+    #       - Settings
+    #     users: []
+    #     teams:
+    #       - infrastructure
+    #       - frontend
+    #   # Permits force pushes for all users with push access. Set to null to disable.
+    #   allow_force_pushes: null
+    #   # Allows users with push access to delete matching branches. Set to `false` to disable.
+    #   allow_deletions: false
+    #   # Ensure all review conversations are seen and addressed prior to merging
+    #   required_conversation_resolution: true

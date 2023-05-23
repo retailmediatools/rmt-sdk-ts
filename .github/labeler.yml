@@ -1,0 +1,12 @@
+# https://github.com/actions/labeler
+
+# Some common example labels, need to be edited in each project
+
+# Add 'gh-actions' label
+gh-actions:
+  - .github/*
+  - .github/**/*
+
+# Add 'documentation' label
+documentation:
+  - '*.md'
