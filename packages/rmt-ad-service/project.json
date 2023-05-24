@@ -1,0 +1,20 @@
+{
+  "name": "rmt-ad-service",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/rmt-ad-service/src",
+  "projectType": "library",
+  "targets": {
+    "generate-sources": {
+      "executor": "@trumbitta/nx-plugin-openapi:generate-api-lib-sources",
+      "options": {
+        "useDockerBuild": false,
+        "generator": "typescript-axios",
+        "sourceSpecPathOrUrl": "packages/rmt-api-spec/src/ad-service.yaml",
+        "additionalProperties": "typescriptThreePlus=true,supportsES6=true",
+        "globalProperties": ""
+      }
+    }
+  },
+  "implicitDependencies": [],
+  "tags": []
+}

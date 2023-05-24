@@ -1,0 +1,11 @@
+name: Main CI
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  ci-workflow:
+    name: Build and test
+    uses: ./.github/workflows/reusable-ci-workflow.yaml
+    secrets: inherit

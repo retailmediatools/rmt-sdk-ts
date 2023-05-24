@@ -1,0 +1,20 @@
+{
+  "importOrder": [
+    "^lib/(.*)$",
+    "^model/(.*)$",
+    "^services/(.*)$",
+    "^context/(.*)$",
+    "^hooks/(.*)$",
+    "^feature/(.*)$",
+    "^components/(.*)$",
+    "^icons/(.*)$",
+    "^styles/(.*)$",
+    "^./styles$",
+    "^[./]"
+  ],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true,
+  "plugins": ["@trivago/prettier-plugin-sort-imports"],
+  "semi": true,
+  "singleQuote": true
+}
