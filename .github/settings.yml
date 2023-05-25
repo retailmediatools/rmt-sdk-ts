@@ -18,10 +18,10 @@ repository:
   topics: retailmediatools, retail-media, rmt-sdk-ts, typescript, ts
 
   # Either `true` to make the repository private, or `false` to make it public.
-  private: true
+  private: false
 
   # Can be `public` or `private`. If your organization is associated with an enterprise account using GitHub Enterprise Cloud or GitHub Enterprise Server 2.20+, visibility can also be `internal`. The visibility parameter overrides the private parameter when you use both along with the nebula-preview preview header
-  visibility: private
+  visibility: public
 
   # Updates the default branch for this repository.
   default_branch: main
