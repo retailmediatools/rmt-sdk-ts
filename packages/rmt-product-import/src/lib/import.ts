@@ -1,6 +1,7 @@
 import {
   Product,
   ProductsApi,
+  UpdateProduct,
 } from '@rmt-sdk-ts/rmt-product-service';
 
 export interface ProductSync {
@@ -24,7 +25,11 @@ export async function syncProducts(
       if (status === 'ACTIVE') {
         if (exists) {
           console.log(`Updating product ${product.sku}`);
-          return productApi.putProduct(catalogKey, product.sku, product);
+          return productApi.putProduct(
+            catalogKey,
+            product.sku,
+            toUpdateProduct(product)
+          );
         } else {
           console.log(`Adding product ${product.sku}`);
           return productApi.addProduct(catalogKey, product).catch((err) => {
@@ -48,4 +53,17 @@ export async function syncProducts(
       }
     })
   );
+}
+
+function toUpdateProduct(product: Product): UpdateProduct {
+  return {
+    gtins: product.gtins,
+    image_url: product.image_url,
+    name: product.name,
+    brand: product.brand,
+    base_price_cents: product.base_price_cents,
+    categories: product.categories,
+    import_file: product.import_file,
+    custom: product.custom,
+  };
 }

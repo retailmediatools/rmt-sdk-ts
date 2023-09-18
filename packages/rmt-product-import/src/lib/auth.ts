@@ -29,7 +29,7 @@ export async function getToken() {
     .post<TokenResponse>(process.env.RMT_AUTH_URL, data)
     .then((response) => response.data)
     .catch((err: AxiosError) => {
-      console.error('Failed to fetch token:', err.response.data);
+      console.error('Failed to fetch token:', err.response?.data);
       throw new Error(err.message);
     });
 
