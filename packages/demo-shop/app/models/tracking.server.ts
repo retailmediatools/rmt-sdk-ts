@@ -1,7 +1,4 @@
-import {
-  Configuration,
-  TrackingApi,
-} from '@rmt-sdk-ts/rmt-tracking-service';
+import { Configuration, TrackingApi } from '@rmt-sdk-ts/rmt-tracking-service';
 
 import { getToken } from '../lib/rmt';
 

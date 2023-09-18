@@ -13,10 +13,10 @@ export async function syncProducts(
   productApi: ProductsApi,
   catalogKey: string,
   products: ProductSync[],
-  existingProducts: Product[]
+  existingProducts: Product[],
 ) {
   const existingProductsLookup = new Map<string, null>(
-    existingProducts.map((p) => [p.sku, null])
+    existingProducts.map((p) => [p.sku, null]),
   );
 
   return Promise.all(
@@ -28,7 +28,7 @@ export async function syncProducts(
           return productApi.putProduct(
             catalogKey,
             product.sku,
-            toUpdateProduct(product)
+            toUpdateProduct(product),
           );
         } else {
           console.log(`Adding product ${product.sku}`);
@@ -36,7 +36,7 @@ export async function syncProducts(
             // #HACK: This is a workaround for the product service not returning archived products.
             if (err.response.status === 409) {
               console.log(
-                `Found archived product with the same SKU=${product.sku}. Making it active.`
+                `Found archived product with the same SKU=${product.sku}. Making it active.`,
               );
               return productApi.patchProduct(catalogKey, product.sku, {
                 ...product,
@@ -51,7 +51,7 @@ export async function syncProducts(
         console.log(`Deactivating product ${product.sku}`);
         return productApi.deactivateProduct(catalogKey, product.sku);
       }
-    })
+    }),
   );
 }
 

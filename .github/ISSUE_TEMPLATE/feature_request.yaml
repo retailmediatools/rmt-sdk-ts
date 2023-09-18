@@ -1,6 +1,6 @@
 name: Feature request
 description: Suggest an idea for this project
-title: "Issue Title"
+title: 'Issue Title'
 labels: [enhancement]
 assignees:
   - engineers

@@ -1,6 +1,6 @@
-import { Product } from '@rmt-sdk-ts/rmt-product-service';
 import { LoaderFunction, json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
+import { Product } from '@rmt-sdk-ts/rmt-product-service';
 import axios from 'axios';
 import { useEffect, useMemo } from 'react';
 
@@ -78,7 +78,7 @@ export default function Index() {
     axios.post(
       '/track/i',
       { ad_id: bannerAds[0].id },
-      { responseType: 'blob' }
+      { responseType: 'blob' },
     );
   }, []);
 
@@ -89,7 +89,7 @@ export default function Index() {
   const onPurchaseClick = (
     adId: string | null,
     sku: string,
-    paidPriceTotalCents: number | null | undefined
+    paidPriceTotalCents: number | null | undefined,
   ) => {
     axios.post(
       '/track/o',
@@ -99,7 +99,7 @@ export default function Index() {
         sku,
         paid_price_total_cents: paidPriceTotalCents,
       },
-      { responseType: 'blob' }
+      { responseType: 'blob' },
     );
   };
 
@@ -163,14 +163,14 @@ export default function Index() {
                     onPurchaseClick(
                       ad.id,
                       product.sku,
-                      product.base_price_cents
+                      product.base_price_cents,
                     )
                   }
                 >
                   1-Click-Buy
                 </button>
               </div>
-            ))
+            )),
           )}
           {products.map((product) => (
             <div className="flex flex-col items-start gap-2">

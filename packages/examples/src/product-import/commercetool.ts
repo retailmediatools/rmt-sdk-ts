@@ -10,10 +10,7 @@ import {
   syncProducts,
   transform,
 } from '@rmt-sdk-ts/rmt-product-import';
-import {
-  Configuration,
-  ProductsApi,
-} from '@rmt-sdk-ts/rmt-product-service';
+import { Configuration, ProductsApi } from '@rmt-sdk-ts/rmt-product-service';
 import * as dotenv from 'dotenv';
 
 dotenv.config();
@@ -60,7 +57,7 @@ export async function importProductsFromCommercetools() {
   let existingProducts = [];
   for await (const products of fetchExistingProducts(
     productsApi,
-    rmtCatalogKey
+    rmtCatalogKey,
   )) {
     existingProducts = existingProducts.concat(products);
   }
@@ -73,7 +70,7 @@ export async function importProductsFromCommercetools() {
     const ctpTransformer = new CtpTransformer(locale, categories);
     const products = transform(ctpTransformer, ctpProducts);
     console.log(
-      `Fetched ${ctpProducts.length} products, importing ${products.length} products`
+      `Fetched ${ctpProducts.length} products, importing ${products.length} products`,
     );
 
     // Sync products to the RMT
@@ -83,7 +80,7 @@ export async function importProductsFromCommercetools() {
         productsApi,
         rmtCatalogKey,
         products,
-        existingProducts
+        existingProducts,
       );
       console.log(`Synced ${products.length} products`);
     } catch (e) {

@@ -1,15 +1,10 @@
-import {
-  Ad,
-  AdSet,
-  AdsApi,
-  Configuration,
-} from '@rmt-sdk-ts/rmt-ad-service';
+import { Ad, AdSet, AdsApi, Configuration } from '@rmt-sdk-ts/rmt-ad-service';
 
 import { getToken } from '../lib/rmt';
 
 export async function getAds(
   placementId: string,
-  shopperKey?: string
+  shopperKey?: string,
 ): Promise<Array<Ad>> {
   const { access_token } = await getToken();
   const rmtConfig = new Configuration({

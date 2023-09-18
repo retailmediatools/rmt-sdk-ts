@@ -27,7 +27,7 @@ export async function getProducts(): Promise<Array<Product>> {
 }
 
 export async function getProductsBySku(
-  skus: string[]
+  skus: string[],
 ): Promise<Array<Product>> {
   const { access_token } = await getToken();
   const rmtConfig = new Configuration({
@@ -38,7 +38,7 @@ export async function getProductsBySku(
   try {
     const api = new ProductsApi(rmtConfig);
     const res = await Promise.all(
-      skus.map((sku) => api.getProduct(process.env.RMT_CATALOG_ID || '', sku))
+      skus.map((sku) => api.getProduct(process.env.RMT_CATALOG_ID || '', sku)),
     );
 
     return res.map((r) => (r.data as any).data);

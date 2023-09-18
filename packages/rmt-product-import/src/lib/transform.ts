@@ -1,7 +1,7 @@
 import { ProductSync } from './import';
 
 export type TransformerFunction = (
-  record: unknown
+  record: unknown,
 ) => (ProductSync | undefined)[];
 
 export interface Transformer {

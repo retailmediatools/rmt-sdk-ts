@@ -1,8 +1,5 @@
 import { Product as CtProduct, ProductData } from '@commercetools/platform-sdk';
-import {
-  ProductSync,
-  transform,
-} from '@rmt-sdk-ts/rmt-product-import';
+import { ProductSync, transform } from '@rmt-sdk-ts/rmt-product-import';
 
 import { CtpTransformer } from './transformer';
 
@@ -103,7 +100,7 @@ describe('transform commercetools product data to rmt product data', () => {
               },
             ],
           },
-          status: 'ARCHIVED'
+          status: 'ARCHIVED',
         },
       ],
     ],

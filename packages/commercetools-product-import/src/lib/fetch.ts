@@ -20,7 +20,7 @@ export async function* fetchObjects(fetchFn, ctpConfig) {
 export function fetchProductProjections(
   config: Configuration,
   limit = 100,
-  afterId = ''
+  afterId = '',
 ) {
   const apiRoot = getApiRoot(config);
   return apiRoot
@@ -40,7 +40,7 @@ export function fetchProductProjections(
 export function fetchProducts(
   config: Configuration,
   limit = 100,
-  afterId = ''
+  afterId = '',
 ) {
   const apiRoot = getApiRoot(config);
   return apiRoot
@@ -60,7 +60,7 @@ export function fetchProducts(
 export function fetchCategories(
   config: Configuration,
   limit = 100,
-  afterId = ''
+  afterId = '',
 ) {
   const apiRoot = getApiRoot(config);
   return apiRoot

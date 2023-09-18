@@ -1,11 +1,8 @@
-import {
-  Product,
-  ProductsApi,
-} from '@rmt-sdk-ts/rmt-product-service';
+import { Product, ProductsApi } from '@rmt-sdk-ts/rmt-product-service';
 
 export async function* fetchProducts(
   productApi: ProductsApi,
-  catalogKey: string
+  catalogKey: string,
 ) {
   const limit = 100;
   let cursor = undefined;
@@ -16,7 +13,7 @@ export async function* fetchProducts(
       undefined,
       undefined,
       limit,
-      cursor
+      cursor,
     );
     const { data } = res;
 

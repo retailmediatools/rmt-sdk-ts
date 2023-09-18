@@ -18,9 +18,7 @@
       "@rmt-sdk-ts/commercetools-product-import": [
         "packages/commercetools-product-import/src/index.ts"
       ],
-      "@rmt-sdk-ts/rmt-ad-service": [
-        "packages/rmt-ad-service/src/index.ts"
-      ],
+      "@rmt-sdk-ts/rmt-ad-service": ["packages/rmt-ad-service/src/index.ts"],
       "@rmt-sdk-ts/rmt-product-import": [
         "packages/rmt-product-import/src/index.ts"
       ],

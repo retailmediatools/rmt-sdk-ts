@@ -81,7 +81,7 @@ const fn = async () => {
   const pepperonis = await getProducts(
     myCatalogKey,
     undefined,
-    'name="%pepperoni%"'
+    'name="%pepperoni%"',
   );
   console.log('Found ' + pepperonis.data.length + ' pepperoni pizza(s)');
 };

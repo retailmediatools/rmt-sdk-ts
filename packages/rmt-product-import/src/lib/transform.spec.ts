@@ -21,7 +21,7 @@ describe('transform input data using a tee transformer function to the RMT produ
         | Record<string, never>[]
         | undefined
       ),
-      ProductSync[]
+      ProductSync[],
     ]
   >([
     [undefined, []],

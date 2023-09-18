@@ -89,31 +89,31 @@ repository:
 # Labels: define labels for Issues and Pull Requests
 labels:
   - name: documentation
-    color: "#1D76DB"
+    color: '#1D76DB'
     description: Pull requests that update documentation
-  - name: "on hold"
-    color: "#D93F0B"
-    description: "PR is on hold / DO NOT merge"
+  - name: 'on hold'
+    color: '#D93F0B'
+    description: 'PR is on hold / DO NOT merge'
 
   # release drafter / changelog labels
   - name: bug
-    color: "#d73a4a"
+    color: '#d73a4a'
     description: Something isn't working
   - name: bugfix
-    color: "#d73a4a"
+    color: '#d73a4a'
     description: Something isn't working
   - name: chore
-    color: "#ededed"
+    color: '#ededed'
   - name: enhancement
-    color: "#a2eeef"
+    color: '#a2eeef'
     description: New feature or request
   - name: feature
-    color: "#006B75"
+    color: '#006B75'
     description: New feature or request
   - name: fix
-    color: "#ededed"
+    color: '#ededed'
   - name: skip-changelog
-    color: "#FEF2C0"
+    color: '#FEF2C0'
 
   # release drafter / version-resolver
   # - name: major
@@ -125,28 +125,28 @@ labels:
 
   # dependency labels
   - name: dependencies
-    color: "#0366d6"
+    color: '#0366d6'
     description: Dependency updates
   - name: gh-actions
-    color: "#000"
+    color: '#000'
     description: Pull requests that update github-actions code
   - name: git
-    color: "#f14e32"
+    color: '#f14e32'
     description: Pull requests that update git code or git-submodules
   - name: js
-    color: "#f1e05a"
+    color: '#f1e05a'
     description: Pull requests that update JavaScript code
   - name: java
-    color: "#b07219"
+    color: '#b07219'
     description: Pull requests that update Java code
   - name: golang
-    color: "#00ADD8"
+    color: '#00ADD8'
     description: Pull requests that update Go code
   - name: python
-    color: "#3572A5"
+    color: '#3572A5'
     description: Pull requests that update Python code
   - name: terraform
-    color: "#5c4ee5"
+    color: '#5c4ee5'
     description: Pull requests that update Terraform code
 
 # Milestones: define milestones for Issues and Pull Requests
@@ -179,8 +179,7 @@ teams:
 
 # Collaborators: give specific users access to this repository. (usually outside of the organization)
 # See https://docs.github.com/en/rest/reference/repos#add-a-repository-collaborator for available options
-collaborators:
-  []
+collaborators: []
 
 branches:
   - name: main

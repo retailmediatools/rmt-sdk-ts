@@ -32,7 +32,7 @@ async function getProductsApi() {
 export async function getProducts(
   catalogKey: string,
   q?: string,
-  filter?: string
+  filter?: string,
 ) {
   const api = await getProductsApi();
   const response = await api.getProducts(catalogKey, q, filter);
@@ -54,7 +54,7 @@ export async function createProduct(catalogKey: string, product: Product) {
 export async function updateProduct(
   catalogKey: string,
   sku: string,
-  product: PatchProduct
+  product: PatchProduct,
 ) {
   const api = await getProductsApi();
   const response = await api.patchProduct(catalogKey, sku, product);
