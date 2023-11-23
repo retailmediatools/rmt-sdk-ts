@@ -46,6 +46,3 @@ Thumbs.db
 # Remix files
 apps/**/build
 apps/**/.cache
-
-# Internal dev tools
-packages/rmt-api-spec/**
