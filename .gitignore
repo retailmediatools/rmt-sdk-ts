@@ -46,3 +46,5 @@ Thumbs.db
 # Remix files
 apps/**/build
 apps/**/.cache
+
+.nx/cache

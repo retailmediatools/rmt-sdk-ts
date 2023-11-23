@@ -6,14 +6,20 @@
   "targets": {
     "lint": {
       "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+      "outputs": [
+        "{options.outputFile}"
+      ],
       "options": {
-        "lintFilePatterns": ["packages/commercetools-product-import/**/*.ts"]
+        "lintFilePatterns": [
+          "packages/commercetools-product-import/**/*.ts"
+        ]
       }
     },
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": ["coverage/packages/commercetools-product-import"],
+      "outputs": [
+        "{workspaceRoot}/coverage/packages/commercetools-product-import"
+      ],
       "options": {
         "jestConfig": "packages/commercetools-product-import/jest.config.ts",
         "passWithNoTests": true
