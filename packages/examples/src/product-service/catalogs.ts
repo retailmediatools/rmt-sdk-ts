@@ -48,13 +48,13 @@ export async function createCatalog(catalog: Catalog) {
 
 export async function getBrands(catalogKey: string) {
   const api = await getCatalogsApi();
-  const response = await api.getDistinctValues(catalogKey, 'brands');
+  const response = await api.getDistinctBrands(catalogKey);
   return response.data;
 }
 
 export async function getCategories(catalogKey: string) {
   const api = await getCatalogsApi();
-  const response = await api.getDistinctValues(catalogKey, 'categories');
+  const response = await api.getDistinctCategories(catalogKey);
   return response.data;
 }
 

@@ -98,19 +98,19 @@ export interface CatalogsResponseWrapper {
     'data': Array<CatalogResponse>;
 }
 /**
- * Category
+ * Represents a product category.
  * @export
  * @interface Category
  */
 export interface Category {
     /**
-     * 
+     * Unique identifier for the category.
      * @type {string}
      * @memberof Category
      */
     'category_key': string;
     /**
-     * 
+     * The name of the product category.
      * @type {string}
      * @memberof Category
      */
@@ -132,13 +132,51 @@ export interface CategoryResponseWrapper {
 /**
  * 
  * @export
- * @interface DistinctResponseWrapper
+ * @interface CreateImportSessionRequest
  */
-export interface DistinctResponseWrapper {
+export interface CreateImportSessionRequest {
+    /**
+     * Optional URI of a file that should be used for the import. If left unspecified, entities can be imported by using the \'Import entities\' API.
+     * @type {string}
+     * @memberof CreateImportSessionRequest
+     */
+    'uri'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface DistinctBrandsResponseWrapper
+ */
+export interface DistinctBrandsResponseWrapper {
+    /**
+     * 
+     * @type {PageInfoResponse}
+     * @memberof DistinctBrandsResponseWrapper
+     */
+    'page_info'?: PageInfoResponse;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof DistinctBrandsResponseWrapper
+     */
+    'data': Array<string>;
+}
+/**
+ * 
+ * @export
+ * @interface DistinctCategoriesResponseWrapper
+ */
+export interface DistinctCategoriesResponseWrapper {
+    /**
+     * 
+     * @type {PageInfoResponse}
+     * @memberof DistinctCategoriesResponseWrapper
+     */
+    'page_info'?: PageInfoResponse;
     /**
      * 
      * @type {Array<any>}
-     * @memberof DistinctResponseWrapper
+     * @memberof DistinctCategoriesResponseWrapper
      */
     'data': Array<any>;
 }
@@ -166,6 +204,12 @@ export interface ErrorResponse {
      * @memberof ErrorResponse
      */
     'status': ErrorResponseStatusEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof ErrorResponse
+     */
+    'request_id': string;
 }
 
 export const ErrorResponseCodeEnum = {
@@ -173,6 +217,7 @@ export const ErrorResponseCodeEnum = {
     NUMBER_401: 401,
     NUMBER_404: 404,
     NUMBER_409: 409,
+    NUMBER_422: 422,
     NUMBER_500: 500
 } as const;
 
@@ -184,7 +229,219 @@ export const ErrorResponseStatusEnum = {
 export type ErrorResponseStatusEnum = typeof ErrorResponseStatusEnum[keyof typeof ErrorResponseStatusEnum];
 
 /**
- * Product inventories
+ * @type ImportEntitiesRequest
+ * @export
+ */
+export type ImportEntitiesRequest = InventoriesWrapper | ProductsWrapper;
+
+/**
+ * 
+ * @export
+ * @interface ImportOperation
+ */
+export interface ImportOperation {
+    /**
+     * 
+     * @type {string}
+     * @memberof ImportOperation
+     */
+    'id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ImportOperation
+     */
+    'status': ImportOperationStatusEnum;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof ImportOperation
+     */
+    'messages'?: Array<string>;
+    /**
+     * 
+     * @type {string}
+     * @memberof ImportOperation
+     */
+    'created_at': string;
+}
+
+export const ImportOperationStatusEnum = {
+    Pending: 'PENDING',
+    Done: 'DONE',
+    Failed: 'FAILED'
+} as const;
+
+export type ImportOperationStatusEnum = typeof ImportOperationStatusEnum[keyof typeof ImportOperationStatusEnum];
+
+/**
+ * 
+ * @export
+ * @interface ImportOperationResponse
+ */
+export interface ImportOperationResponse {
+    /**
+     * 
+     * @type {ImportOperationResponseData}
+     * @memberof ImportOperationResponse
+     */
+    'data': ImportOperationResponseData;
+}
+/**
+ * 
+ * @export
+ * @interface ImportOperationResponseData
+ */
+export interface ImportOperationResponseData {
+    /**
+     * 
+     * @type {string}
+     * @memberof ImportOperationResponseData
+     */
+    'id': string;
+}
+/**
+ * Product to Import
+ * @export
+ * @interface ImportProduct
+ */
+export interface ImportProduct {
+    /**
+     * 
+     * @type {string}
+     * @memberof ImportProduct
+     */
+    'sku': string;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof ImportProduct
+     */
+    'gtins'?: Array<string>;
+    /**
+     * 
+     * @type {string}
+     * @memberof ImportProduct
+     */
+    'image_url'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof ImportProduct
+     */
+    'name'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof ImportProduct
+     */
+    'brand'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof ImportProduct
+     */
+    'base_price_cents'?: number | null;
+    /**
+     * 
+     * @type {Array<Category>}
+     * @memberof ImportProduct
+     */
+    'categories'?: Array<Category>;
+    /**
+     * 
+     * @type {string}
+     * @memberof ImportProduct
+     */
+    'import_file'?: string | null;
+    /**
+     * 
+     * @type {any}
+     * @memberof ImportProduct
+     */
+    'custom'?: any;
+    /**
+     * 
+     * @type {string}
+     * @memberof ImportProduct
+     */
+    'status'?: ImportProductStatusEnum;
+}
+
+export const ImportProductStatusEnum = {
+    Active: 'ACTIVE',
+    Archived: 'ARCHIVED'
+} as const;
+
+export type ImportProductStatusEnum = typeof ImportProductStatusEnum[keyof typeof ImportProductStatusEnum];
+
+/**
+ * 
+ * @export
+ * @interface ImportSession
+ */
+export interface ImportSession {
+    /**
+     * 
+     * @type {string}
+     * @memberof ImportSession
+     */
+    'id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ImportSession
+     */
+    'status': ImportSessionStatusEnum;
+    /**
+     * 
+     * @type {Array<ImportOperation>}
+     * @memberof ImportSession
+     */
+    'operations'?: Array<ImportOperation>;
+    /**
+     * 
+     * @type {string}
+     * @memberof ImportSession
+     */
+    'created_at': string;
+}
+
+export const ImportSessionStatusEnum = {
+    Idle: 'IDLE',
+    Importing: 'IMPORTING'
+} as const;
+
+export type ImportSessionStatusEnum = typeof ImportSessionStatusEnum[keyof typeof ImportSessionStatusEnum];
+
+/**
+ * 
+ * @export
+ * @interface ImportSessionResponseWrapper
+ */
+export interface ImportSessionResponseWrapper {
+    /**
+     * 
+     * @type {ImportSession}
+     * @memberof ImportSessionResponseWrapper
+     */
+    'data': ImportSession;
+}
+/**
+ * 
+ * @export
+ * @interface ImportSessionsResponseWrapper
+ */
+export interface ImportSessionsResponseWrapper {
+    /**
+     * 
+     * @type {Array<ImportSession>}
+     * @memberof ImportSessionsResponseWrapper
+     */
+    'data': Array<ImportSession>;
+}
+/**
+ * Represents the inventories of a product across multiple stores.
  * @export
  * @interface Inventories
  */
@@ -210,32 +467,45 @@ export interface InventoriesResponseWrapper {
     'data': Array<InventoryResponse>;
 }
 /**
- * SKU store inventory
+ * 
+ * @export
+ * @interface InventoriesWrapper
+ */
+export interface InventoriesWrapper {
+    /**
+     * 
+     * @type {Array<ProductInventories>}
+     * @memberof InventoriesWrapper
+     */
+    'inventories'?: Array<ProductInventories>;
+}
+/**
+ * Represents the inventory of a product in a store.
  * @export
  * @interface Inventory
  */
 export interface Inventory {
     /**
-     * 
+     * Unique identifier for the store.
      * @type {string}
      * @memberof Inventory
      */
     'store_key': string;
     /**
-     * 
+     * Price of the product in the store.
      * @type {number}
      * @memberof Inventory
      */
     'price_cents'?: number | null;
 }
 /**
- * SKU Inventory Response
+ * Represents the response for the inventory of a product in a store.
  * @export
  * @interface InventoryResponse
  */
 export interface InventoryResponse {
     /**
-     * 
+     * Unique identifier for the store.
      * @type {string}
      * @memberof InventoryResponse
      */
@@ -402,61 +672,80 @@ export interface Product {
     'custom'?: any;
 }
 /**
- * Product Response
+ * Represents a list of inventories for a product.
+ * @export
+ * @interface ProductInventories
+ */
+export interface ProductInventories {
+    /**
+     * 
+     * @type {string}
+     * @memberof ProductInventories
+     */
+    'sku': string;
+    /**
+     * 
+     * @type {Array<Inventory>}
+     * @memberof ProductInventories
+     */
+    'inventories'?: Array<Inventory> | null;
+}
+/**
+ * Represents the response for a product.
  * @export
  * @interface ProductResponse
  */
 export interface ProductResponse {
     /**
-     * 
+     * Unique identifier for the product.
      * @type {string}
      * @memberof ProductResponse
      */
     'id': string;
     /**
-     * 
+     * Unique identifier for the catalog to which the product belongs.
      * @type {string}
      * @memberof ProductResponse
      */
     'catalog_key': string;
     /**
-     * Can be used in the filter query string.
+     * Stock Keeping Unit. Can be used in the filter query string.
      * @type {string}
      * @memberof ProductResponse
      */
     'sku': string;
     /**
-     * Can be used in the filter query string. Filters by exact GTIN match in the GTIN\'s list.
+     * List of Global Trade Item Numbers (GTINs) associated with the product.
      * @type {Array<string>}
      * @memberof ProductResponse
      */
     'gtins': Array<string>;
     /**
-     * 
+     * URL of the product image.
      * @type {string}
      * @memberof ProductResponse
      */
     'image_url'?: string | null;
     /**
-     * Can be used in the filter query string.
+     * Name of the product. Can be used in the filter query string.
      * @type {string}
      * @memberof ProductResponse
      */
     'name'?: string | null;
     /**
-     * Can be used in the filter query string.
+     * Brand of the product. Can be used in the filter query string.
      * @type {string}
      * @memberof ProductResponse
      */
     'brand'?: string | null;
     /**
-     * Can be used in the filter query string.
+     * Base price of the product. Can be used in the filter query string.
      * @type {number}
      * @memberof ProductResponse
      */
     'base_price_cents'?: number | null;
     /**
-     * Can be used in the filter query string. Multiple choice filter is allowed.
+     * Status of the product. Can be used in the filter query string.
      * @type {string}
      * @memberof ProductResponse
      */
@@ -474,13 +763,13 @@ export interface ProductResponse {
      */
     'min_price_cents'?: number | null;
     /**
-     * Can be used in the filter query string. The filter restriction should filter by category key.
+     * Categories describing the product. Can be used in the filter query string.
      * @type {Array<Category>}
      * @memberof ProductResponse
      */
     'categories': Array<Category>;
     /**
-     * 
+     * File from which the product was imported.
      * @type {string}
      * @memberof ProductResponse
      */
@@ -492,13 +781,13 @@ export interface ProductResponse {
      */
     'custom'?: any;
     /**
-     * Can be used in the filter query string.
+     * Timestamp of when the product was created. Can be used in the filter query string.
      * @type {string}
      * @memberof ProductResponse
      */
     'created_at': string;
     /**
-     * Can be used in the filter query string.
+     * Timestamp of the last update to the product. Can be used in the filter query string.
      * @type {string}
      * @memberof ProductResponse
      */
@@ -543,6 +832,19 @@ export interface ProductsResponseWrapper {
      * @memberof ProductsResponseWrapper
      */
     'data': Array<ProductResponse>;
+}
+/**
+ * 
+ * @export
+ * @interface ProductsWrapper
+ */
+export interface ProductsWrapper {
+    /**
+     * 
+     * @type {Array<ImportProduct>}
+     * @memberof ProductsWrapper
+     */
+    'products'?: Array<ImportProduct>;
 }
 /**
  * Product Update
@@ -608,8 +910,8 @@ export const CatalogsApiAxiosParamCreator = function (configuration?: Configurat
     return {
         /**
          * 
-         * @summary Create Catalog
-         * @param {Catalog} catalog A catalog
+         * @summary Create catalog
+         * @param {Catalog} catalog A catalog request
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -648,8 +950,8 @@ export const CatalogsApiAxiosParamCreator = function (configuration?: Configurat
         },
         /**
          * 
-         * @summary Get Catalog
-         * @param {string} catalogKey The catalog key
+         * @summary Get catalog
+         * @param {string} catalogKey The key of the catalog to retrieve
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -686,7 +988,7 @@ export const CatalogsApiAxiosParamCreator = function (configuration?: Configurat
         },
         /**
          * 
-         * @summary Get Catalogs
+         * @summary List catalogs
          * @param {number} [limit] 
          * @param {string} [cursor] 
          * @param {string} [orderBy] Specifies the sorting order. The default sorting order is descending. To specify ascending order for a field, append a &#x60;asc&#x60; suffix; for example: &#x60;created_at asc&#x60;. Redundant space characters in the syntax are insignificant. &#x60;foo, bar asc&#x60;, &#x60; foo , bar asc &#x60;, and &#x60;foo,bar asc&#x60; are all equivalent.
@@ -734,9 +1036,9 @@ export const CatalogsApiAxiosParamCreator = function (configuration?: Configurat
             };
         },
         /**
-         * Get the Category data for a given Category key in a Catalog
-         * @summary Get Category data
-         * @param {string} catalogKey The catalog key where to look for the category_key
+         * Retrieve the Category data for a given Category key in a Catalog.
+         * @summary Get category data
+         * @param {string} catalogKey The key of the catalog to search for the category_key
          * @param {string} categoryKey Key for the category
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -776,21 +1078,484 @@ export const CatalogsApiAxiosParamCreator = function (configuration?: Configurat
             };
         },
         /**
-         * Get distinct values in a Catalog (brands, category names and/or keys).
-         * @summary Get distinct values in a Catalog
-         * @param {string} catalogKey The catalog key where to look for the distinct values
-         * @param {'brands' | 'categories' | 'category-keys' | 'category-names'} distinctKey Key for the distinct values
+         * Retrieve distinct brands in a Catalog.
+         * @summary Get distinct brands in a catalog
+         * @param {string} catalogKey The key of the catalog to search for distinct brands
+         * @param {number} [limit] 
+         * @param {string} [cursor] 
+         * @param {string} [orderBy] Specifies the sorting order. The default sorting order is descending. To specify ascending order for a field, append a &#x60;asc&#x60; suffix; for example: &#x60;created_at asc&#x60;. Redundant space characters in the syntax are insignificant. &#x60;foo, bar asc&#x60;, &#x60; foo , bar asc &#x60;, and &#x60;foo,bar asc&#x60; are all equivalent.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getDistinctValues: async (catalogKey: string, distinctKey: 'brands' | 'categories' | 'category-keys' | 'category-names', options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getDistinctBrands: async (catalogKey: string, limit?: number, cursor?: string, orderBy?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'catalogKey' is not null or undefined
-            assertParamExists('getDistinctValues', 'catalogKey', catalogKey)
-            // verify required parameter 'distinctKey' is not null or undefined
-            assertParamExists('getDistinctValues', 'distinctKey', distinctKey)
-            const localVarPath = `/catalogs/{catalog_key}/{distinct_key}`
+            assertParamExists('getDistinctBrands', 'catalogKey', catalogKey)
+            const localVarPath = `/catalogs/{catalog_key}/brands`
+                .replace(`{${"catalog_key"}}`, encodeURIComponent(String(catalogKey)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearerAuth required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "bearerAuth", ["read-all:catalog"], configuration)
+
+            if (limit !== undefined) {
+                localVarQueryParameter['limit'] = limit;
+            }
+
+            if (cursor !== undefined) {
+                localVarQueryParameter['cursor'] = cursor;
+            }
+
+            if (orderBy !== undefined) {
+                localVarQueryParameter['order_by'] = orderBy;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Retrieve distinct categories in a Catalog.
+         * @summary Get distinct categories in a catalog
+         * @param {string} catalogKey The key of the catalog to search for distinct categories
+         * @param {'category_key' | 'category_name'} [key] Specifies the field to return. If not specified, the response will contain the full category object.
+         * @param {number} [limit] 
+         * @param {string} [cursor] 
+         * @param {string} [orderBy] Specifies the sorting order. The default sorting order is descending. To specify ascending order for a field, append a &#x60;asc&#x60; suffix; for example: &#x60;created_at asc&#x60;. Redundant space characters in the syntax are insignificant. &#x60;foo, bar asc&#x60;, &#x60; foo , bar asc &#x60;, and &#x60;foo,bar asc&#x60; are all equivalent.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getDistinctCategories: async (catalogKey: string, key?: 'category_key' | 'category_name', limit?: number, cursor?: string, orderBy?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'catalogKey' is not null or undefined
+            assertParamExists('getDistinctCategories', 'catalogKey', catalogKey)
+            const localVarPath = `/catalogs/{catalog_key}/categories`
+                .replace(`{${"catalog_key"}}`, encodeURIComponent(String(catalogKey)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearerAuth required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "bearerAuth", ["read-all:catalog"], configuration)
+
+            if (key !== undefined) {
+                localVarQueryParameter['key'] = key;
+            }
+
+            if (limit !== undefined) {
+                localVarQueryParameter['limit'] = limit;
+            }
+
+            if (cursor !== undefined) {
+                localVarQueryParameter['cursor'] = cursor;
+            }
+
+            if (orderBy !== undefined) {
+                localVarQueryParameter['order_by'] = orderBy;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * CatalogsApi - functional programming interface
+ * @export
+ */
+export const CatalogsApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = CatalogsApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @summary Create catalog
+         * @param {Catalog} catalog A catalog request
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async addCatalog(catalog: Catalog, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CatalogResponseWrapper>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.addCatalog(catalog, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Get catalog
+         * @param {string} catalogKey The key of the catalog to retrieve
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getCatalog(catalogKey: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CatalogResponseWrapper>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getCatalog(catalogKey, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary List catalogs
+         * @param {number} [limit] 
+         * @param {string} [cursor] 
+         * @param {string} [orderBy] Specifies the sorting order. The default sorting order is descending. To specify ascending order for a field, append a &#x60;asc&#x60; suffix; for example: &#x60;created_at asc&#x60;. Redundant space characters in the syntax are insignificant. &#x60;foo, bar asc&#x60;, &#x60; foo , bar asc &#x60;, and &#x60;foo,bar asc&#x60; are all equivalent.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getCatalogs(limit?: number, cursor?: string, orderBy?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CatalogsResponseWrapper>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getCatalogs(limit, cursor, orderBy, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * Retrieve the Category data for a given Category key in a Catalog.
+         * @summary Get category data
+         * @param {string} catalogKey The key of the catalog to search for the category_key
+         * @param {string} categoryKey Key for the category
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getCategory(catalogKey: string, categoryKey: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CategoryResponseWrapper>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getCategory(catalogKey, categoryKey, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * Retrieve distinct brands in a Catalog.
+         * @summary Get distinct brands in a catalog
+         * @param {string} catalogKey The key of the catalog to search for distinct brands
+         * @param {number} [limit] 
+         * @param {string} [cursor] 
+         * @param {string} [orderBy] Specifies the sorting order. The default sorting order is descending. To specify ascending order for a field, append a &#x60;asc&#x60; suffix; for example: &#x60;created_at asc&#x60;. Redundant space characters in the syntax are insignificant. &#x60;foo, bar asc&#x60;, &#x60; foo , bar asc &#x60;, and &#x60;foo,bar asc&#x60; are all equivalent.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getDistinctBrands(catalogKey: string, limit?: number, cursor?: string, orderBy?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DistinctBrandsResponseWrapper>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getDistinctBrands(catalogKey, limit, cursor, orderBy, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * Retrieve distinct categories in a Catalog.
+         * @summary Get distinct categories in a catalog
+         * @param {string} catalogKey The key of the catalog to search for distinct categories
+         * @param {'category_key' | 'category_name'} [key] Specifies the field to return. If not specified, the response will contain the full category object.
+         * @param {number} [limit] 
+         * @param {string} [cursor] 
+         * @param {string} [orderBy] Specifies the sorting order. The default sorting order is descending. To specify ascending order for a field, append a &#x60;asc&#x60; suffix; for example: &#x60;created_at asc&#x60;. Redundant space characters in the syntax are insignificant. &#x60;foo, bar asc&#x60;, &#x60; foo , bar asc &#x60;, and &#x60;foo,bar asc&#x60; are all equivalent.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getDistinctCategories(catalogKey: string, key?: 'category_key' | 'category_name', limit?: number, cursor?: string, orderBy?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DistinctCategoriesResponseWrapper>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getDistinctCategories(catalogKey, key, limit, cursor, orderBy, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * CatalogsApi - factory interface
+ * @export
+ */
+export const CatalogsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = CatalogsApiFp(configuration)
+    return {
+        /**
+         * 
+         * @summary Create catalog
+         * @param {Catalog} catalog A catalog request
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        addCatalog(catalog: Catalog, options?: any): AxiosPromise<CatalogResponseWrapper> {
+            return localVarFp.addCatalog(catalog, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Get catalog
+         * @param {string} catalogKey The key of the catalog to retrieve
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getCatalog(catalogKey: string, options?: any): AxiosPromise<CatalogResponseWrapper> {
+            return localVarFp.getCatalog(catalogKey, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary List catalogs
+         * @param {number} [limit] 
+         * @param {string} [cursor] 
+         * @param {string} [orderBy] Specifies the sorting order. The default sorting order is descending. To specify ascending order for a field, append a &#x60;asc&#x60; suffix; for example: &#x60;created_at asc&#x60;. Redundant space characters in the syntax are insignificant. &#x60;foo, bar asc&#x60;, &#x60; foo , bar asc &#x60;, and &#x60;foo,bar asc&#x60; are all equivalent.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getCatalogs(limit?: number, cursor?: string, orderBy?: string, options?: any): AxiosPromise<CatalogsResponseWrapper> {
+            return localVarFp.getCatalogs(limit, cursor, orderBy, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Retrieve the Category data for a given Category key in a Catalog.
+         * @summary Get category data
+         * @param {string} catalogKey The key of the catalog to search for the category_key
+         * @param {string} categoryKey Key for the category
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getCategory(catalogKey: string, categoryKey: string, options?: any): AxiosPromise<CategoryResponseWrapper> {
+            return localVarFp.getCategory(catalogKey, categoryKey, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Retrieve distinct brands in a Catalog.
+         * @summary Get distinct brands in a catalog
+         * @param {string} catalogKey The key of the catalog to search for distinct brands
+         * @param {number} [limit] 
+         * @param {string} [cursor] 
+         * @param {string} [orderBy] Specifies the sorting order. The default sorting order is descending. To specify ascending order for a field, append a &#x60;asc&#x60; suffix; for example: &#x60;created_at asc&#x60;. Redundant space characters in the syntax are insignificant. &#x60;foo, bar asc&#x60;, &#x60; foo , bar asc &#x60;, and &#x60;foo,bar asc&#x60; are all equivalent.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getDistinctBrands(catalogKey: string, limit?: number, cursor?: string, orderBy?: string, options?: any): AxiosPromise<DistinctBrandsResponseWrapper> {
+            return localVarFp.getDistinctBrands(catalogKey, limit, cursor, orderBy, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Retrieve distinct categories in a Catalog.
+         * @summary Get distinct categories in a catalog
+         * @param {string} catalogKey The key of the catalog to search for distinct categories
+         * @param {'category_key' | 'category_name'} [key] Specifies the field to return. If not specified, the response will contain the full category object.
+         * @param {number} [limit] 
+         * @param {string} [cursor] 
+         * @param {string} [orderBy] Specifies the sorting order. The default sorting order is descending. To specify ascending order for a field, append a &#x60;asc&#x60; suffix; for example: &#x60;created_at asc&#x60;. Redundant space characters in the syntax are insignificant. &#x60;foo, bar asc&#x60;, &#x60; foo , bar asc &#x60;, and &#x60;foo,bar asc&#x60; are all equivalent.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getDistinctCategories(catalogKey: string, key?: 'category_key' | 'category_name', limit?: number, cursor?: string, orderBy?: string, options?: any): AxiosPromise<DistinctCategoriesResponseWrapper> {
+            return localVarFp.getDistinctCategories(catalogKey, key, limit, cursor, orderBy, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * CatalogsApi - object-oriented interface
+ * @export
+ * @class CatalogsApi
+ * @extends {BaseAPI}
+ */
+export class CatalogsApi extends BaseAPI {
+    /**
+     * 
+     * @summary Create catalog
+     * @param {Catalog} catalog A catalog request
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CatalogsApi
+     */
+    public addCatalog(catalog: Catalog, options?: AxiosRequestConfig) {
+        return CatalogsApiFp(this.configuration).addCatalog(catalog, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Get catalog
+     * @param {string} catalogKey The key of the catalog to retrieve
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CatalogsApi
+     */
+    public getCatalog(catalogKey: string, options?: AxiosRequestConfig) {
+        return CatalogsApiFp(this.configuration).getCatalog(catalogKey, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary List catalogs
+     * @param {number} [limit] 
+     * @param {string} [cursor] 
+     * @param {string} [orderBy] Specifies the sorting order. The default sorting order is descending. To specify ascending order for a field, append a &#x60;asc&#x60; suffix; for example: &#x60;created_at asc&#x60;. Redundant space characters in the syntax are insignificant. &#x60;foo, bar asc&#x60;, &#x60; foo , bar asc &#x60;, and &#x60;foo,bar asc&#x60; are all equivalent.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CatalogsApi
+     */
+    public getCatalogs(limit?: number, cursor?: string, orderBy?: string, options?: AxiosRequestConfig) {
+        return CatalogsApiFp(this.configuration).getCatalogs(limit, cursor, orderBy, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Retrieve the Category data for a given Category key in a Catalog.
+     * @summary Get category data
+     * @param {string} catalogKey The key of the catalog to search for the category_key
+     * @param {string} categoryKey Key for the category
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CatalogsApi
+     */
+    public getCategory(catalogKey: string, categoryKey: string, options?: AxiosRequestConfig) {
+        return CatalogsApiFp(this.configuration).getCategory(catalogKey, categoryKey, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Retrieve distinct brands in a Catalog.
+     * @summary Get distinct brands in a catalog
+     * @param {string} catalogKey The key of the catalog to search for distinct brands
+     * @param {number} [limit] 
+     * @param {string} [cursor] 
+     * @param {string} [orderBy] Specifies the sorting order. The default sorting order is descending. To specify ascending order for a field, append a &#x60;asc&#x60; suffix; for example: &#x60;created_at asc&#x60;. Redundant space characters in the syntax are insignificant. &#x60;foo, bar asc&#x60;, &#x60; foo , bar asc &#x60;, and &#x60;foo,bar asc&#x60; are all equivalent.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CatalogsApi
+     */
+    public getDistinctBrands(catalogKey: string, limit?: number, cursor?: string, orderBy?: string, options?: AxiosRequestConfig) {
+        return CatalogsApiFp(this.configuration).getDistinctBrands(catalogKey, limit, cursor, orderBy, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Retrieve distinct categories in a Catalog.
+     * @summary Get distinct categories in a catalog
+     * @param {string} catalogKey The key of the catalog to search for distinct categories
+     * @param {'category_key' | 'category_name'} [key] Specifies the field to return. If not specified, the response will contain the full category object.
+     * @param {number} [limit] 
+     * @param {string} [cursor] 
+     * @param {string} [orderBy] Specifies the sorting order. The default sorting order is descending. To specify ascending order for a field, append a &#x60;asc&#x60; suffix; for example: &#x60;created_at asc&#x60;. Redundant space characters in the syntax are insignificant. &#x60;foo, bar asc&#x60;, &#x60; foo , bar asc &#x60;, and &#x60;foo,bar asc&#x60; are all equivalent.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CatalogsApi
+     */
+    public getDistinctCategories(catalogKey: string, key?: 'category_key' | 'category_name', limit?: number, cursor?: string, orderBy?: string, options?: AxiosRequestConfig) {
+        return CatalogsApiFp(this.configuration).getDistinctCategories(catalogKey, key, limit, cursor, orderBy, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
+ * ImportsApi - axios parameter creator
+ * @export
+ */
+export const ImportsApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @summary Create import session
+         * @param {string} catalogKey The key of the catalog to retrieve
+         * @param {CreateImportSessionRequest} createImportSessionRequest An import session request
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createImportSession: async (catalogKey: string, createImportSessionRequest: CreateImportSessionRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'catalogKey' is not null or undefined
+            assertParamExists('createImportSession', 'catalogKey', catalogKey)
+            // verify required parameter 'createImportSessionRequest' is not null or undefined
+            assertParamExists('createImportSession', 'createImportSessionRequest', createImportSessionRequest)
+            const localVarPath = `/catalogs/{catalog_key}/imports`
+                .replace(`{${"catalog_key"}}`, encodeURIComponent(String(catalogKey)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearerAuth required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "bearerAuth", ["write-all:catalog"], configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(createImportSessionRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Delete import session
+         * @param {string} catalogKey The key of the catalog to retrieve
+         * @param {string} importId Unique identifier of the import session to retrieve.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteImportSession: async (catalogKey: string, importId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'catalogKey' is not null or undefined
+            assertParamExists('deleteImportSession', 'catalogKey', catalogKey)
+            // verify required parameter 'importId' is not null or undefined
+            assertParamExists('deleteImportSession', 'importId', importId)
+            const localVarPath = `/catalogs/{catalog_key}/imports/{import_id}`
                 .replace(`{${"catalog_key"}}`, encodeURIComponent(String(catalogKey)))
-                .replace(`{${"distinct_key"}}`, encodeURIComponent(String(distinctKey)));
+                .replace(`{${"import_id"}}`, encodeURIComponent(String(importId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearerAuth required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "bearerAuth", ["write-all:catalog"], configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Get import session
+         * @param {string} catalogKey The key of the catalog to retrieve
+         * @param {string} importId Unique identifier of the import session to retrieve.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getImportSession: async (catalogKey: string, importId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'catalogKey' is not null or undefined
+            assertParamExists('getImportSession', 'catalogKey', catalogKey)
+            // verify required parameter 'importId' is not null or undefined
+            assertParamExists('getImportSession', 'importId', importId)
+            const localVarPath = `/catalogs/{catalog_key}/imports/{import_id}`
+                .replace(`{${"catalog_key"}}`, encodeURIComponent(String(catalogKey)))
+                .replace(`{${"import_id"}}`, encodeURIComponent(String(importId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -817,211 +1582,316 @@ export const CatalogsApiAxiosParamCreator = function (configuration?: Configurat
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * 
+         * @summary Import entities
+         * @param {string} catalogKey The key of the catalog to add the product to
+         * @param {string} importId Unique identifier of the import session to add the product batch to
+         * @param {ImportEntitiesRequest} importEntitiesRequest An entity import request
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        importEntities: async (catalogKey: string, importId: string, importEntitiesRequest: ImportEntitiesRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'catalogKey' is not null or undefined
+            assertParamExists('importEntities', 'catalogKey', catalogKey)
+            // verify required parameter 'importId' is not null or undefined
+            assertParamExists('importEntities', 'importId', importId)
+            // verify required parameter 'importEntitiesRequest' is not null or undefined
+            assertParamExists('importEntities', 'importEntitiesRequest', importEntitiesRequest)
+            const localVarPath = `/catalogs/{catalog_key}/imports/{import_id}`
+                .replace(`{${"catalog_key"}}`, encodeURIComponent(String(catalogKey)))
+                .replace(`{${"import_id"}}`, encodeURIComponent(String(importId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearerAuth required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "bearerAuth", ["write-all:product"], configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(importEntitiesRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary List import sessions
+         * @param {string} catalogKey The key of the catalog to retrieve
+         * @param {number} [limit] 
+         * @param {string} [cursor] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listImportSessions: async (catalogKey: string, limit?: number, cursor?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'catalogKey' is not null or undefined
+            assertParamExists('listImportSessions', 'catalogKey', catalogKey)
+            const localVarPath = `/catalogs/{catalog_key}/imports`
+                .replace(`{${"catalog_key"}}`, encodeURIComponent(String(catalogKey)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication bearerAuth required
+            // oauth required
+            await setOAuthToObject(localVarHeaderParameter, "bearerAuth", ["read-all:catalog"], configuration)
+
+            if (limit !== undefined) {
+                localVarQueryParameter['limit'] = limit;
+            }
+
+            if (cursor !== undefined) {
+                localVarQueryParameter['cursor'] = cursor;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
 /**
- * CatalogsApi - functional programming interface
+ * ImportsApi - functional programming interface
  * @export
  */
-export const CatalogsApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = CatalogsApiAxiosParamCreator(configuration)
+export const ImportsApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = ImportsApiAxiosParamCreator(configuration)
     return {
         /**
          * 
-         * @summary Create Catalog
-         * @param {Catalog} catalog A catalog
+         * @summary Create import session
+         * @param {string} catalogKey The key of the catalog to retrieve
+         * @param {CreateImportSessionRequest} createImportSessionRequest An import session request
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async addCatalog(catalog: Catalog, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CatalogResponseWrapper>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.addCatalog(catalog, options);
+        async createImportSession(catalogKey: string, createImportSessionRequest: CreateImportSessionRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ImportSessionResponseWrapper>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createImportSession(catalogKey, createImportSessionRequest, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * 
-         * @summary Get Catalog
-         * @param {string} catalogKey The catalog key
+         * @summary Delete import session
+         * @param {string} catalogKey The key of the catalog to retrieve
+         * @param {string} importId Unique identifier of the import session to retrieve.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getCatalog(catalogKey: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CatalogResponseWrapper>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getCatalog(catalogKey, options);
+        async deleteImportSession(catalogKey: string, importId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteImportSession(catalogKey, importId, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * 
-         * @summary Get Catalogs
+         * @summary Get import session
+         * @param {string} catalogKey The key of the catalog to retrieve
+         * @param {string} importId Unique identifier of the import session to retrieve.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getImportSession(catalogKey: string, importId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ImportSessionResponseWrapper>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getImportSession(catalogKey, importId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Import entities
+         * @param {string} catalogKey The key of the catalog to add the product to
+         * @param {string} importId Unique identifier of the import session to add the product batch to
+         * @param {ImportEntitiesRequest} importEntitiesRequest An entity import request
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async importEntities(catalogKey: string, importId: string, importEntitiesRequest: ImportEntitiesRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ImportOperationResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.importEntities(catalogKey, importId, importEntitiesRequest, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary List import sessions
+         * @param {string} catalogKey The key of the catalog to retrieve
          * @param {number} [limit] 
          * @param {string} [cursor] 
-         * @param {string} [orderBy] Specifies the sorting order. The default sorting order is descending. To specify ascending order for a field, append a &#x60;asc&#x60; suffix; for example: &#x60;created_at asc&#x60;. Redundant space characters in the syntax are insignificant. &#x60;foo, bar asc&#x60;, &#x60; foo , bar asc &#x60;, and &#x60;foo,bar asc&#x60; are all equivalent.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getCatalogs(limit?: number, cursor?: string, orderBy?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CatalogsResponseWrapper>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getCatalogs(limit, cursor, orderBy, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * Get the Category data for a given Category key in a Catalog
-         * @summary Get Category data
-         * @param {string} catalogKey The catalog key where to look for the category_key
-         * @param {string} categoryKey Key for the category
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getCategory(catalogKey: string, categoryKey: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CategoryResponseWrapper>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getCategory(catalogKey, categoryKey, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * Get distinct values in a Catalog (brands, category names and/or keys).
-         * @summary Get distinct values in a Catalog
-         * @param {string} catalogKey The catalog key where to look for the distinct values
-         * @param {'brands' | 'categories' | 'category-keys' | 'category-names'} distinctKey Key for the distinct values
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getDistinctValues(catalogKey: string, distinctKey: 'brands' | 'categories' | 'category-keys' | 'category-names', options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DistinctResponseWrapper>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getDistinctValues(catalogKey, distinctKey, options);
+        async listImportSessions(catalogKey: string, limit?: number, cursor?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ImportSessionsResponseWrapper>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listImportSessions(catalogKey, limit, cursor, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
 };
 
 /**
- * CatalogsApi - factory interface
+ * ImportsApi - factory interface
  * @export
  */
-export const CatalogsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = CatalogsApiFp(configuration)
+export const ImportsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = ImportsApiFp(configuration)
     return {
         /**
          * 
-         * @summary Create Catalog
-         * @param {Catalog} catalog A catalog
+         * @summary Create import session
+         * @param {string} catalogKey The key of the catalog to retrieve
+         * @param {CreateImportSessionRequest} createImportSessionRequest An import session request
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        addCatalog(catalog: Catalog, options?: any): AxiosPromise<CatalogResponseWrapper> {
-            return localVarFp.addCatalog(catalog, options).then((request) => request(axios, basePath));
+        createImportSession(catalogKey: string, createImportSessionRequest: CreateImportSessionRequest, options?: any): AxiosPromise<ImportSessionResponseWrapper> {
+            return localVarFp.createImportSession(catalogKey, createImportSessionRequest, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @summary Get Catalog
-         * @param {string} catalogKey The catalog key
+         * @summary Delete import session
+         * @param {string} catalogKey The key of the catalog to retrieve
+         * @param {string} importId Unique identifier of the import session to retrieve.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getCatalog(catalogKey: string, options?: any): AxiosPromise<CatalogResponseWrapper> {
-            return localVarFp.getCatalog(catalogKey, options).then((request) => request(axios, basePath));
+        deleteImportSession(catalogKey: string, importId: string, options?: any): AxiosPromise<void> {
+            return localVarFp.deleteImportSession(catalogKey, importId, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @summary Get Catalogs
+         * @summary Get import session
+         * @param {string} catalogKey The key of the catalog to retrieve
+         * @param {string} importId Unique identifier of the import session to retrieve.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getImportSession(catalogKey: string, importId: string, options?: any): AxiosPromise<ImportSessionResponseWrapper> {
+            return localVarFp.getImportSession(catalogKey, importId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Import entities
+         * @param {string} catalogKey The key of the catalog to add the product to
+         * @param {string} importId Unique identifier of the import session to add the product batch to
+         * @param {ImportEntitiesRequest} importEntitiesRequest An entity import request
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        importEntities(catalogKey: string, importId: string, importEntitiesRequest: ImportEntitiesRequest, options?: any): AxiosPromise<ImportOperationResponse> {
+            return localVarFp.importEntities(catalogKey, importId, importEntitiesRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary List import sessions
+         * @param {string} catalogKey The key of the catalog to retrieve
          * @param {number} [limit] 
          * @param {string} [cursor] 
-         * @param {string} [orderBy] Specifies the sorting order. The default sorting order is descending. To specify ascending order for a field, append a &#x60;asc&#x60; suffix; for example: &#x60;created_at asc&#x60;. Redundant space characters in the syntax are insignificant. &#x60;foo, bar asc&#x60;, &#x60; foo , bar asc &#x60;, and &#x60;foo,bar asc&#x60; are all equivalent.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getCatalogs(limit?: number, cursor?: string, orderBy?: string, options?: any): AxiosPromise<CatalogsResponseWrapper> {
-            return localVarFp.getCatalogs(limit, cursor, orderBy, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Get the Category data for a given Category key in a Catalog
-         * @summary Get Category data
-         * @param {string} catalogKey The catalog key where to look for the category_key
-         * @param {string} categoryKey Key for the category
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getCategory(catalogKey: string, categoryKey: string, options?: any): AxiosPromise<CategoryResponseWrapper> {
-            return localVarFp.getCategory(catalogKey, categoryKey, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Get distinct values in a Catalog (brands, category names and/or keys).
-         * @summary Get distinct values in a Catalog
-         * @param {string} catalogKey The catalog key where to look for the distinct values
-         * @param {'brands' | 'categories' | 'category-keys' | 'category-names'} distinctKey Key for the distinct values
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getDistinctValues(catalogKey: string, distinctKey: 'brands' | 'categories' | 'category-keys' | 'category-names', options?: any): AxiosPromise<DistinctResponseWrapper> {
-            return localVarFp.getDistinctValues(catalogKey, distinctKey, options).then((request) => request(axios, basePath));
+        listImportSessions(catalogKey: string, limit?: number, cursor?: string, options?: any): AxiosPromise<ImportSessionsResponseWrapper> {
+            return localVarFp.listImportSessions(catalogKey, limit, cursor, options).then((request) => request(axios, basePath));
         },
     };
 };
 
 /**
- * CatalogsApi - object-oriented interface
+ * ImportsApi - object-oriented interface
  * @export
- * @class CatalogsApi
+ * @class ImportsApi
  * @extends {BaseAPI}
  */
-export class CatalogsApi extends BaseAPI {
+export class ImportsApi extends BaseAPI {
     /**
      * 
-     * @summary Create Catalog
-     * @param {Catalog} catalog A catalog
+     * @summary Create import session
+     * @param {string} catalogKey The key of the catalog to retrieve
+     * @param {CreateImportSessionRequest} createImportSessionRequest An import session request
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof CatalogsApi
+     * @memberof ImportsApi
      */
-    public addCatalog(catalog: Catalog, options?: AxiosRequestConfig) {
-        return CatalogsApiFp(this.configuration).addCatalog(catalog, options).then((request) => request(this.axios, this.basePath));
+    public createImportSession(catalogKey: string, createImportSessionRequest: CreateImportSessionRequest, options?: AxiosRequestConfig) {
+        return ImportsApiFp(this.configuration).createImportSession(catalogKey, createImportSessionRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @summary Get Catalog
-     * @param {string} catalogKey The catalog key
+     * @summary Delete import session
+     * @param {string} catalogKey The key of the catalog to retrieve
+     * @param {string} importId Unique identifier of the import session to retrieve.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof CatalogsApi
+     * @memberof ImportsApi
      */
-    public getCatalog(catalogKey: string, options?: AxiosRequestConfig) {
-        return CatalogsApiFp(this.configuration).getCatalog(catalogKey, options).then((request) => request(this.axios, this.basePath));
+    public deleteImportSession(catalogKey: string, importId: string, options?: AxiosRequestConfig) {
+        return ImportsApiFp(this.configuration).deleteImportSession(catalogKey, importId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @summary Get Catalogs
+     * @summary Get import session
+     * @param {string} catalogKey The key of the catalog to retrieve
+     * @param {string} importId Unique identifier of the import session to retrieve.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ImportsApi
+     */
+    public getImportSession(catalogKey: string, importId: string, options?: AxiosRequestConfig) {
+        return ImportsApiFp(this.configuration).getImportSession(catalogKey, importId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Import entities
+     * @param {string} catalogKey The key of the catalog to add the product to
+     * @param {string} importId Unique identifier of the import session to add the product batch to
+     * @param {ImportEntitiesRequest} importEntitiesRequest An entity import request
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ImportsApi
+     */
+    public importEntities(catalogKey: string, importId: string, importEntitiesRequest: ImportEntitiesRequest, options?: AxiosRequestConfig) {
+        return ImportsApiFp(this.configuration).importEntities(catalogKey, importId, importEntitiesRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary List import sessions
+     * @param {string} catalogKey The key of the catalog to retrieve
      * @param {number} [limit] 
      * @param {string} [cursor] 
-     * @param {string} [orderBy] Specifies the sorting order. The default sorting order is descending. To specify ascending order for a field, append a &#x60;asc&#x60; suffix; for example: &#x60;created_at asc&#x60;. Redundant space characters in the syntax are insignificant. &#x60;foo, bar asc&#x60;, &#x60; foo , bar asc &#x60;, and &#x60;foo,bar asc&#x60; are all equivalent.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof CatalogsApi
+     * @memberof ImportsApi
      */
-    public getCatalogs(limit?: number, cursor?: string, orderBy?: string, options?: AxiosRequestConfig) {
-        return CatalogsApiFp(this.configuration).getCatalogs(limit, cursor, orderBy, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * Get the Category data for a given Category key in a Catalog
-     * @summary Get Category data
-     * @param {string} catalogKey The catalog key where to look for the category_key
-     * @param {string} categoryKey Key for the category
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof CatalogsApi
-     */
-    public getCategory(catalogKey: string, categoryKey: string, options?: AxiosRequestConfig) {
-        return CatalogsApiFp(this.configuration).getCategory(catalogKey, categoryKey, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * Get distinct values in a Catalog (brands, category names and/or keys).
-     * @summary Get distinct values in a Catalog
-     * @param {string} catalogKey The catalog key where to look for the distinct values
-     * @param {'brands' | 'categories' | 'category-keys' | 'category-names'} distinctKey Key for the distinct values
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof CatalogsApi
-     */
-    public getDistinctValues(catalogKey: string, distinctKey: 'brands' | 'categories' | 'category-keys' | 'category-names', options?: AxiosRequestConfig) {
-        return CatalogsApiFp(this.configuration).getDistinctValues(catalogKey, distinctKey, options).then((request) => request(this.axios, this.basePath));
+    public listImportSessions(catalogKey: string, limit?: number, cursor?: string, options?: AxiosRequestConfig) {
+        return ImportsApiFp(this.configuration).listImportSessions(catalogKey, limit, cursor, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -1034,7 +1904,7 @@ export const InventoriesApiAxiosParamCreator = function (configuration?: Configu
     return {
         /**
          * 
-         * @summary Get Inventories
+         * @summary Get inventories
          * @param {string} catalogKey The catalog key
          * @param {string} sku The product sku
          * @param {*} [options] Override http request option.
@@ -1076,10 +1946,10 @@ export const InventoriesApiAxiosParamCreator = function (configuration?: Configu
         },
         /**
          * Add product inventory
-         * @summary Add Inventories
+         * @summary Add inventories
          * @param {string} catalogKey The catalog key
          * @param {string} sku The product sku
-         * @param {Inventories} inventories An array of product inventories
+         * @param {Inventories} inventories An array of product inventories request
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1106,7 +1976,7 @@ export const InventoriesApiAxiosParamCreator = function (configuration?: Configu
 
             // authentication bearerAuth required
             // oauth required
-            await setOAuthToObject(localVarHeaderParameter, "bearerAuth", ["write-all:inventory"], configuration)
+            await setOAuthToObject(localVarHeaderParameter, "bearerAuth", ["write-all:product"], configuration)
 
 
     
@@ -1134,7 +2004,7 @@ export const InventoriesApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
-         * @summary Get Inventories
+         * @summary Get inventories
          * @param {string} catalogKey The catalog key
          * @param {string} sku The product sku
          * @param {*} [options] Override http request option.
@@ -1146,10 +2016,10 @@ export const InventoriesApiFp = function(configuration?: Configuration) {
         },
         /**
          * Add product inventory
-         * @summary Add Inventories
+         * @summary Add inventories
          * @param {string} catalogKey The catalog key
          * @param {string} sku The product sku
-         * @param {Inventories} inventories An array of product inventories
+         * @param {Inventories} inventories An array of product inventories request
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1169,7 +2039,7 @@ export const InventoriesApiFactory = function (configuration?: Configuration, ba
     return {
         /**
          * 
-         * @summary Get Inventories
+         * @summary Get inventories
          * @param {string} catalogKey The catalog key
          * @param {string} sku The product sku
          * @param {*} [options] Override http request option.
@@ -1180,10 +2050,10 @@ export const InventoriesApiFactory = function (configuration?: Configuration, ba
         },
         /**
          * Add product inventory
-         * @summary Add Inventories
+         * @summary Add inventories
          * @param {string} catalogKey The catalog key
          * @param {string} sku The product sku
-         * @param {Inventories} inventories An array of product inventories
+         * @param {Inventories} inventories An array of product inventories request
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1202,7 +2072,7 @@ export const InventoriesApiFactory = function (configuration?: Configuration, ba
 export class InventoriesApi extends BaseAPI {
     /**
      * 
-     * @summary Get Inventories
+     * @summary Get inventories
      * @param {string} catalogKey The catalog key
      * @param {string} sku The product sku
      * @param {*} [options] Override http request option.
@@ -1215,10 +2085,10 @@ export class InventoriesApi extends BaseAPI {
 
     /**
      * Add product inventory
-     * @summary Add Inventories
+     * @summary Add inventories
      * @param {string} catalogKey The catalog key
      * @param {string} sku The product sku
-     * @param {Inventories} inventories An array of product inventories
+     * @param {Inventories} inventories An array of product inventories request
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof InventoriesApi
@@ -1237,9 +2107,9 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
     return {
         /**
          * 
-         * @summary Create Product
-         * @param {string} catalogKey The catalog key where to get the products
-         * @param {Product} product A product
+         * @summary Create product
+         * @param {string} catalogKey The key of the catalog to add the product to
+         * @param {Product} product A product request
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1280,8 +2150,8 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
             };
         },
         /**
-         * Deactivate a Product. Products are never deleted permanently
-         * @summary Deactivate Product
+         * Deactivate a Product. Products are never deleted permanently.
+         * @summary Deactivate product
          * @param {string} catalogKey The catalog key
          * @param {string} sku The product sku
          * @param {*} [options] Override http request option.
@@ -1323,7 +2193,7 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
         },
         /**
          * 
-         * @summary Get Product
+         * @summary Get product
          * @param {string} catalogKey The catalog key
          * @param {string} sku The product sku
          * @param {*} [options] Override http request option.
@@ -1365,8 +2235,8 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
         },
         /**
          * 
-         * @summary Get products in a Catalog
-         * @param {string} catalogKey The catalog key where to get the products
+         * @summary Get products in a catalog
+         * @param {string} catalogKey The key of the catalog to retrieve products from
          * @param {string} [q] The query for a search in the catalog\&#39;s products. Compared to the &#x60;filter&#x60; parameter, one would use the &#x60;q&#x60; parameter to perform a text search over the catalog\&#39;s products. Meanwhile, &#x60;filter&#x60; filters the output based on the individual field values.
          * @param {string} [filter] Filter the result. See filtering query basics at [Filtering concept](https://docs.retailmediatools.com/reference/filtering). Due to implementation limitations, only the following operators are supported: &#x60;&#x3D;&#x60;, &#x60;&gt;&#x60;, &#x60;&lt;&#x60;, &#x60;&gt;&#x3D;&#x60;, &#x60;&lt;&#x3D;&#x60;, &#x60;AND&#x60;. Use &#x60;OR&#x60; to filter by multi-choice fields, such as &#x60;status&#x60;
          * @param {number} [limit] 
@@ -1428,10 +2298,10 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
         },
         /**
          * Update particular field(s) of a specific Product
-         * @summary Update Product
+         * @summary Update product
          * @param {string} catalogKey The catalog key
          * @param {string} sku The product sku
-         * @param {PatchProduct} patchProduct A product patch
+         * @param {PatchProduct} patchProduct A product patch request
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1475,11 +2345,11 @@ export const ProductsApiAxiosParamCreator = function (configuration?: Configurat
             };
         },
         /**
-         * Update a specific Product. A complete object must be provided
-         * @summary Update Product
+         * Update a specific Product. A complete object must be provided.
+         * @summary Update product
          * @param {string} catalogKey The catalog key
          * @param {string} sku The product sku
-         * @param {UpdateProduct} updateProduct A product
+         * @param {UpdateProduct} updateProduct A product update request
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1534,9 +2404,9 @@ export const ProductsApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
-         * @summary Create Product
-         * @param {string} catalogKey The catalog key where to get the products
-         * @param {Product} product A product
+         * @summary Create product
+         * @param {string} catalogKey The key of the catalog to add the product to
+         * @param {Product} product A product request
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1545,8 +2415,8 @@ export const ProductsApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Deactivate a Product. Products are never deleted permanently
-         * @summary Deactivate Product
+         * Deactivate a Product. Products are never deleted permanently.
+         * @summary Deactivate product
          * @param {string} catalogKey The catalog key
          * @param {string} sku The product sku
          * @param {*} [options] Override http request option.
@@ -1558,7 +2428,7 @@ export const ProductsApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary Get Product
+         * @summary Get product
          * @param {string} catalogKey The catalog key
          * @param {string} sku The product sku
          * @param {*} [options] Override http request option.
@@ -1570,8 +2440,8 @@ export const ProductsApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary Get products in a Catalog
-         * @param {string} catalogKey The catalog key where to get the products
+         * @summary Get products in a catalog
+         * @param {string} catalogKey The key of the catalog to retrieve products from
          * @param {string} [q] The query for a search in the catalog\&#39;s products. Compared to the &#x60;filter&#x60; parameter, one would use the &#x60;q&#x60; parameter to perform a text search over the catalog\&#39;s products. Meanwhile, &#x60;filter&#x60; filters the output based on the individual field values.
          * @param {string} [filter] Filter the result. See filtering query basics at [Filtering concept](https://docs.retailmediatools.com/reference/filtering). Due to implementation limitations, only the following operators are supported: &#x60;&#x3D;&#x60;, &#x60;&gt;&#x60;, &#x60;&lt;&#x60;, &#x60;&gt;&#x3D;&#x60;, &#x60;&lt;&#x3D;&#x60;, &#x60;AND&#x60;. Use &#x60;OR&#x60; to filter by multi-choice fields, such as &#x60;status&#x60;
          * @param {number} [limit] 
@@ -1586,10 +2456,10 @@ export const ProductsApiFp = function(configuration?: Configuration) {
         },
         /**
          * Update particular field(s) of a specific Product
-         * @summary Update Product
+         * @summary Update product
          * @param {string} catalogKey The catalog key
          * @param {string} sku The product sku
-         * @param {PatchProduct} patchProduct A product patch
+         * @param {PatchProduct} patchProduct A product patch request
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1598,11 +2468,11 @@ export const ProductsApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Update a specific Product. A complete object must be provided
-         * @summary Update Product
+         * Update a specific Product. A complete object must be provided.
+         * @summary Update product
          * @param {string} catalogKey The catalog key
          * @param {string} sku The product sku
-         * @param {UpdateProduct} updateProduct A product
+         * @param {UpdateProduct} updateProduct A product update request
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1622,9 +2492,9 @@ export const ProductsApiFactory = function (configuration?: Configuration, baseP
     return {
         /**
          * 
-         * @summary Create Product
-         * @param {string} catalogKey The catalog key where to get the products
-         * @param {Product} product A product
+         * @summary Create product
+         * @param {string} catalogKey The key of the catalog to add the product to
+         * @param {Product} product A product request
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1632,8 +2502,8 @@ export const ProductsApiFactory = function (configuration?: Configuration, baseP
             return localVarFp.addProduct(catalogKey, product, options).then((request) => request(axios, basePath));
         },
         /**
-         * Deactivate a Product. Products are never deleted permanently
-         * @summary Deactivate Product
+         * Deactivate a Product. Products are never deleted permanently.
+         * @summary Deactivate product
          * @param {string} catalogKey The catalog key
          * @param {string} sku The product sku
          * @param {*} [options] Override http request option.
@@ -1644,7 +2514,7 @@ export const ProductsApiFactory = function (configuration?: Configuration, baseP
         },
         /**
          * 
-         * @summary Get Product
+         * @summary Get product
          * @param {string} catalogKey The catalog key
          * @param {string} sku The product sku
          * @param {*} [options] Override http request option.
@@ -1655,8 +2525,8 @@ export const ProductsApiFactory = function (configuration?: Configuration, baseP
         },
         /**
          * 
-         * @summary Get products in a Catalog
-         * @param {string} catalogKey The catalog key where to get the products
+         * @summary Get products in a catalog
+         * @param {string} catalogKey The key of the catalog to retrieve products from
          * @param {string} [q] The query for a search in the catalog\&#39;s products. Compared to the &#x60;filter&#x60; parameter, one would use the &#x60;q&#x60; parameter to perform a text search over the catalog\&#39;s products. Meanwhile, &#x60;filter&#x60; filters the output based on the individual field values.
          * @param {string} [filter] Filter the result. See filtering query basics at [Filtering concept](https://docs.retailmediatools.com/reference/filtering). Due to implementation limitations, only the following operators are supported: &#x60;&#x3D;&#x60;, &#x60;&gt;&#x60;, &#x60;&lt;&#x60;, &#x60;&gt;&#x3D;&#x60;, &#x60;&lt;&#x3D;&#x60;, &#x60;AND&#x60;. Use &#x60;OR&#x60; to filter by multi-choice fields, such as &#x60;status&#x60;
          * @param {number} [limit] 
@@ -1670,10 +2540,10 @@ export const ProductsApiFactory = function (configuration?: Configuration, baseP
         },
         /**
          * Update particular field(s) of a specific Product
-         * @summary Update Product
+         * @summary Update product
          * @param {string} catalogKey The catalog key
          * @param {string} sku The product sku
-         * @param {PatchProduct} patchProduct A product patch
+         * @param {PatchProduct} patchProduct A product patch request
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1681,11 +2551,11 @@ export const ProductsApiFactory = function (configuration?: Configuration, baseP
             return localVarFp.patchProduct(catalogKey, sku, patchProduct, options).then((request) => request(axios, basePath));
         },
         /**
-         * Update a specific Product. A complete object must be provided
-         * @summary Update Product
+         * Update a specific Product. A complete object must be provided.
+         * @summary Update product
          * @param {string} catalogKey The catalog key
          * @param {string} sku The product sku
-         * @param {UpdateProduct} updateProduct A product
+         * @param {UpdateProduct} updateProduct A product update request
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1704,9 +2574,9 @@ export const ProductsApiFactory = function (configuration?: Configuration, baseP
 export class ProductsApi extends BaseAPI {
     /**
      * 
-     * @summary Create Product
-     * @param {string} catalogKey The catalog key where to get the products
-     * @param {Product} product A product
+     * @summary Create product
+     * @param {string} catalogKey The key of the catalog to add the product to
+     * @param {Product} product A product request
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProductsApi
@@ -1716,8 +2586,8 @@ export class ProductsApi extends BaseAPI {
     }
 
     /**
-     * Deactivate a Product. Products are never deleted permanently
-     * @summary Deactivate Product
+     * Deactivate a Product. Products are never deleted permanently.
+     * @summary Deactivate product
      * @param {string} catalogKey The catalog key
      * @param {string} sku The product sku
      * @param {*} [options] Override http request option.
@@ -1730,7 +2600,7 @@ export class ProductsApi extends BaseAPI {
 
     /**
      * 
-     * @summary Get Product
+     * @summary Get product
      * @param {string} catalogKey The catalog key
      * @param {string} sku The product sku
      * @param {*} [options] Override http request option.
@@ -1743,8 +2613,8 @@ export class ProductsApi extends BaseAPI {
 
     /**
      * 
-     * @summary Get products in a Catalog
-     * @param {string} catalogKey The catalog key where to get the products
+     * @summary Get products in a catalog
+     * @param {string} catalogKey The key of the catalog to retrieve products from
      * @param {string} [q] The query for a search in the catalog\&#39;s products. Compared to the &#x60;filter&#x60; parameter, one would use the &#x60;q&#x60; parameter to perform a text search over the catalog\&#39;s products. Meanwhile, &#x60;filter&#x60; filters the output based on the individual field values.
      * @param {string} [filter] Filter the result. See filtering query basics at [Filtering concept](https://docs.retailmediatools.com/reference/filtering). Due to implementation limitations, only the following operators are supported: &#x60;&#x3D;&#x60;, &#x60;&gt;&#x60;, &#x60;&lt;&#x60;, &#x60;&gt;&#x3D;&#x60;, &#x60;&lt;&#x3D;&#x60;, &#x60;AND&#x60;. Use &#x60;OR&#x60; to filter by multi-choice fields, such as &#x60;status&#x60;
      * @param {number} [limit] 
@@ -1760,10 +2630,10 @@ export class ProductsApi extends BaseAPI {
 
     /**
      * Update particular field(s) of a specific Product
-     * @summary Update Product
+     * @summary Update product
      * @param {string} catalogKey The catalog key
      * @param {string} sku The product sku
-     * @param {PatchProduct} patchProduct A product patch
+     * @param {PatchProduct} patchProduct A product patch request
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProductsApi
@@ -1773,11 +2643,11 @@ export class ProductsApi extends BaseAPI {
     }
 
     /**
-     * Update a specific Product. A complete object must be provided
-     * @summary Update Product
+     * Update a specific Product. A complete object must be provided.
+     * @summary Update product
      * @param {string} catalogKey The catalog key
      * @param {string} sku The product sku
-     * @param {UpdateProduct} updateProduct A product
+     * @param {UpdateProduct} updateProduct A product update request
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProductsApi
