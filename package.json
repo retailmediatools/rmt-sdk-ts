@@ -39,7 +39,7 @@
     "ts-node": "10.9.1",
     "typescript": "~5.3.2"
   },
-  "packageManager": "yarn@3.2.3",
+  "packageManager": "yarn@4.0.2",
   "dependencies": {
     "@commercetools/platform-sdk": "^4.11.0",
     "@commercetools/sdk-client-v2": "^2.3.0",
